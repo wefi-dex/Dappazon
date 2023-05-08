@@ -19,9 +19,28 @@ describe("Dappazon", function () {
     it("Should set the owner of Dappazon", async () => {
       expect(await dappazon.owner()).to.equal(deployer.address);
     });
+  });
 
-    it("Should have the correct name", async () => {
-      const name = await dappazon.name();
+  describe("Listing", () => {
+    let transaction;
+
+    beforeEach(async () => {
+      transaction = await dappazon.connect(deployer).listItem(
+        "Shoes",
+        "Image",
+        "Clothing",
+        1, // ID
+        2, // cost
+        3, // rating
+        4 // stock
+      );
+
+      await transaction.wait();
+    });
+
+    it("Should return the item attributes", async () => {
+      const item = await dappazon.items(1);
+      expect(item.id).to.equal(1);
     });
   });
 });
