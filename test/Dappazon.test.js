@@ -49,7 +49,45 @@ describe("Dappazon", () => {
 
     it("Should return the item attributes", async () => {
       const item = await dappazon.items(ID);
+
+      expect(item.name).to.equal(NAME);
+      expect(item.image).to.equal(IMAGE);
+      expect(item.category).to.equal(CATEGORY);
       expect(item.id).to.equal(ID);
+      expect(item.cost).to.equal(COST);
+      expect(item.rating).to.equal(RATING);
+      expect(item.stock).to.equal(STOCK);
     });
+
+    it("Should emit the List event", () => {
+      expect(transaction).to.emit(dappazon, "List");
+    });
+  });
+
+  describe("Listing", () => {
+    let transaction;
+
+    beforeEach(async () => {
+      // list an item
+      transaction = await dappazon
+        .connect(deployer)
+        .listItem(NAME, IMAGE, CATEGORY, ID, COST, RATING, STOCK); // Must be in the same order as the 'listItem' function
+
+      await transaction.wait();
+
+      // buy an item
+      transaction = await dappazon
+        .connect(buyer)
+        .purchaseItem(ID, { value: COST });
+    });
+
+    it("Should update the contract balance", async () => {
+      const result = await ethers.provider.getBalance(dappazon.address);
+      expect(result).to.equal(COST);
+    })
+
+    // it("Should emit the List event", () => {
+    //   expect(transaction).to.emit(dappazon, "List");
+    // });
   });
 });

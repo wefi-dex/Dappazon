@@ -7,33 +7,40 @@ contract Dappazon {
     address public owner;
 
     struct Item {
-        string name;
-        string image;
-        string category;
-        uint256 id;
-        uint256 cost;
-        uint256 stock;
-        uint256 rating;
+        string name; // item name
+        string image; // item image
+        string category; // item type
+        uint256 id; // item ID
+        uint256 cost; // item cost
+        uint256 stock; // item stock
+        uint256 rating; // item rating
     }
 
-    // Mapping of the Items
+    // Items mapping
     mapping(uint256 => Item) public items;
+
+    event List(string name, uint256 cost, uint256 quantity);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 
     constructor() {
         name = "Dappazon";
         owner = msg.sender;
     }
 
-    // List products
+    // List items
     function listItem(
-        string memory _name, // name of item
-        string memory _image, // item image
-        string memory _category, // type of item
-        uint256 _id, // ID of the item
-        uint256 _cost, // price of item
-        uint256 _rating, // rating of item
-        uint256 _stock // how many units of item available
-    ) public {
+        string memory _name,
+        string memory _image,
+        string memory _category,
+        uint256 _id,
+        uint256 _cost,
+        uint256 _rating,
+        uint256 _stock
+    ) public onlyOwner {
         // Create Item struct in memory
         Item memory item = Item(
             _name,
@@ -47,8 +54,20 @@ contract Dappazon {
 
         // Save Item struct to the blockchain
         items[_id] = item;
-    }
 
+        // Emit an event (allows the user to subscribe with push notifications)
+        emit List(_name, _cost, _stock);
+    }
     // Purchase products
+    function purchaseItem(uint256 _id) public payable {
+        // revieve the funds
+
+
+        // create an order
+
+        // subtract from the stock
+
+        // emit event
+    }
     // Withdraw funds (owner of markeplace)
 }
