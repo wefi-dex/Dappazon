@@ -31,8 +31,8 @@ contract Dappazon {
         string memory _category, // type of item
         uint256 _id, // ID of the item
         uint256 _cost, // price of item
-        uint256 _stock, // how many units of item available
-        uint256 _rating // rating of item
+        uint256 _rating, // rating of item
+        uint256 _stock // how many units of item available
     ) public {
         // Create Item struct in memory
         Item memory item = Item(

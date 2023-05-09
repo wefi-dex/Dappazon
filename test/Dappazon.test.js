@@ -1,7 +1,22 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Dappazon", function () {
+// WEI converter (WEI => ETH) helper
+const tokens = (n) => {
+  return ethers.utils.parseUnits(n.toString(), "ether");
+};
+
+// Global constants for listing an item
+const NAME = "Shoes";
+const IMAGE =
+  "https://ipfs.io/ipfs/QmTYEboq8raiBs7GTUg2yLXB3PMz6HuBNgNfSZBx5Msztg/shoes.jpg";
+const CATEGORY = "Clothing";
+const ID = 1;
+const COST = tokens(1);
+const RATING = 4;
+const STOCK = 5;
+
+describe("Dappazon", () => {
   let dappazon;
   let deployer, buyer;
 
@@ -25,22 +40,16 @@ describe("Dappazon", function () {
     let transaction;
 
     beforeEach(async () => {
-      transaction = await dappazon.connect(deployer).listItem(
-        "Shoes",
-        "Image",
-        "Clothing",
-        1, // ID
-        2, // cost
-        3, // rating
-        4 // stock
-      );
+      transaction = await dappazon
+        .connect(deployer)
+        .listItem(NAME, IMAGE, CATEGORY, ID, COST, RATING, STOCK); // Must be in the same order as the 'listItem' function
 
       await transaction.wait();
     });
 
     it("Should return the item attributes", async () => {
-      const item = await dappazon.items(1);
-      expect(item.id).to.equal(1);
+      const item = await dappazon.items(ID);
+      expect(item.id).to.equal(ID);
     });
   });
 });
