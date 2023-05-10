@@ -2,23 +2,28 @@
 pragma solidity ^0.8.18;
 
 contract Dappazon {
-    // State vars
-    string public name;
     address public owner;
 
     struct Item {
-        string name; // item name
-        string image; // item image
-        string category; // item type
-        uint256 id; // item ID
-        uint256 cost; // item cost
-        uint256 stock; // item stock
-        uint256 rating; // item rating
+        uint256 id;
+        string name;
+        string category;
+        string image;
+        uint256 cost;
+        uint256 rating;
+        uint256 stock;
     }
 
-    // Items mapping
-    mapping(uint256 => Item) public items;
+    struct Order {
+        uint256 time;
+        Item item;
+    }
 
+    mapping(uint256 => Item) public items;
+    mapping(address => mapping(uint256 => Order)) public orders;
+    mapping(address => uint256) public orderCount;
+
+    event Buy(address buyer, uint256 orderId, uint256 itemId);
     event List(string name, uint256 cost, uint256 quantity);
 
     modifier onlyOwner() {
@@ -26,48 +31,66 @@ contract Dappazon {
         _;
     }
 
+    // Owner of smart contract is the deployer
     constructor() {
-        name = "Dappazon";
         owner = msg.sender;
     }
 
-    // List items
-    function listItem(
-        string memory _name,
-        string memory _image,
-        string memory _category,
+    // Listing an item
+    function list(
         uint256 _id,
+        string memory _name,
+        string memory _category,
+        string memory _image,
         uint256 _cost,
         uint256 _rating,
         uint256 _stock
     ) public onlyOwner {
-        // Create Item struct in memory
+        // Create Item
         Item memory item = Item(
-            _name,
-            _image,
-            _category,
             _id,
+            _name,
+            _category,
+            _image,
             _cost,
-            _stock,
-            _rating
+            _rating,
+            _stock
         );
 
-        // Save Item struct to the blockchain
+        // Add Item to mapping
         items[_id] = item;
 
-        // Emit an event (allows the user to subscribe with push notifications)
+        // Emits the List event
         emit List(_name, _cost, _stock);
     }
-    // Purchase products
-    function purchaseItem(uint256 _id) public payable {
-        // revieve the funds
 
+    function buy(uint256 _id) public payable {
+        // Fetch item
+        Item memory item = items[_id];
 
-        // create an order
+        // Require enough ether to buy item
+        require(msg.value >= item.cost);
 
-        // subtract from the stock
+        // Require item is in stock
+        require(item.stock > 0);
 
-        // emit event
+        // Create order
+        Order memory order = Order(block.timestamp, item);
+
+        // Add order for user
+        orderCount[msg.sender]++; // <-- Order ID
+        orders[msg.sender][orderCount[msg.sender]] = order;
+
+        // Subtract stock
+        items[_id].stock = item.stock - 1;
+
+        // Emit event
+        emit Buy(msg.sender, orderCount[msg.sender], item.id);
     }
-    // Withdraw funds (owner of markeplace)
+
+    // Withdraw funds
+    function withdraw() public onlyOwner {
+        (bool success, ) = owner.call{value: address(this).balance}("");
+        require(success);
+    }
 }
