@@ -30,7 +30,7 @@ function App() {
   return (
     <div>
       <Navigation account={account} setAccount={setAccount} />
-      <h2>Welcome to Dappazon!</h2>
+      <h2>Welcome to Dappazon!!!</h2>
     </div>
   );
 }
