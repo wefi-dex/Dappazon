@@ -23,7 +23,7 @@ const Navigation = ({ account, setAccount }) => {
         </button>
       ) : (
         <button type="button" className="nav__connect" onClick={connectHandler}>
-          Connect Wallet to use Dappazon
+          Connect
         </button>
       )}
 
