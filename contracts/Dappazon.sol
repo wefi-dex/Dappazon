@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.9;
 
 contract Dappazon {
     address public owner;
@@ -31,12 +31,10 @@ contract Dappazon {
         _;
     }
 
-    // Owner of smart contract is the deployer
     constructor() {
         owner = msg.sender;
     }
 
-    // Listing an item
     function list(
         uint256 _id,
         string memory _name,
@@ -60,7 +58,7 @@ contract Dappazon {
         // Add Item to mapping
         items[_id] = item;
 
-        // Emits the List event
+        // Emit event
         emit List(_name, _cost, _stock);
     }
 
@@ -88,7 +86,6 @@ contract Dappazon {
         emit Buy(msg.sender, orderCount[msg.sender], item.id);
     }
 
-    // Withdraw funds
     function withdraw() public onlyOwner {
         (bool success, ) = owner.call{value: address(this).balance}("");
         require(success);
