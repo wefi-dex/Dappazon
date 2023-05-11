@@ -1,13 +1,34 @@
-# Sample Hardhat Project
+# Dappazon
+###
+![dappazonIMG](https://github.com/Antharithm/Dappazon/assets/83500098/bc3ecc4f-4dc4-400f-bd99-e06e13e01344)
+###
+## Technology Stack
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+- Solidity
+- Javascript
+- Ethers.js
+- React.js
+- Node.js
+- Hardhat
 
-Try running some of the following tasks:
+### Dependancies
+- MetaMask (reset account on the Hardhat Network)
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+## Run this dapp
+### 1. Clone or Download the Repository
+
+### 2. Install Dependencies:
+`$ npm install`
+
+### 3. Run tests
+`$ npx hardhat test`
+
+### 4. Start Hardhat node
+`$ npx hardhat node`
+
+### 5. Run deployment script
+In a separate terminal run:
+`$ npx hardhat run ./scripts/deploy.js --network localhost`
+
+### 7. Start frontend
+`$ npm run start`
