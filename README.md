@@ -1,4 +1,4 @@
-# Dappazon | web3 e-commerce Marketplace
+# Dappazon | web3 e-commerce Store
 ###
 ![dappazonIMG](https://github.com/Antharithm/Dappazon/assets/83500098/bc3ecc4f-4dc4-400f-bd99-e06e13e01344)
 ###
@@ -28,7 +28,7 @@
 
 ### 5. Run deployment script
 In a separate terminal run:
-`$ npx hardhat run ./scripts/deploy.js --network localhost`
+`$ npx hardhat run scripts/deploy.js --network localhost`
 
 ### 7. Start frontend
 `$ npm run start`
