@@ -2,6 +2,7 @@
 ###
 ![dappazonIMG](https://github.com/Antharithm/Dappazon/assets/83500098/bc3ecc4f-4dc4-400f-bd99-e06e13e01344)
 ###
+This e-commerce store allows users to purchase clothing, games, and electronics using their Metamask wallet. The smart contract tracks inventory and records all transactions onto the blockchain. The user-friendly UI makes it a compelling alternative to Amazon for the web3 ecosystem.
 ## Technology Stack
 
 - Solidity
